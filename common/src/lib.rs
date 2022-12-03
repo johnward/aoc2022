@@ -47,3 +47,53 @@ mod tests {
 
     }
 }
+
+pub fn alphabet_position(text: &str) -> Result<i32, Box<dyn std::error::Error>> {
+    let s: String = text.chars().into_iter()
+                                .filter(|&c| c.is_alphabetic())
+                                .map(|c| c.to_ascii_uppercase())
+                                .map(|c| c as u8)
+                                .map(|c| (c - 64u8).to_string())
+                                .collect();
+
+    Ok(s.parse::<i32>().unwrap())
+}
+
+
+// pub fn alphabet_position_old(text: String) -> Result<u32, Box<dyn std::error::Error>> {
+    
+//     let mut result = 0;;
+
+//     for ch in text.chars() {
+
+//       let code = ch.to_digit(10).expect("Error");
+
+//       if code > 64 && code < 91 {
+//         //result += (code - 64);
+//         result = code;
+//       }
+//     }
+
+//     Ok(result)
+
+//     //return result.slice(0, result.length - 1);
+//   }
+
+//   pub fn alphabet_position(text: char) -> Result<u32, Box<dyn std::error::Error>> {
+
+//     let mut result = 0;
+//     //let code = text.to_digit(10).expect("Error");
+
+//     let code = text.to_digit(10).unwrap_or(0);
+
+//     if code > 64 && code < 91 {
+//         //result += (code - 64);
+//         result = code;
+//     }
+
+//     // if result != 0 && upper {
+//     //     result += 26;
+//     // }
+    
+//     Ok(result)
+//   }
