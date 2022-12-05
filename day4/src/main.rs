@@ -1,5 +1,7 @@
 #![feature(iter_next_chunk)]
 
+use common::{range_is_inside, range_overlaps};
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Day4");
 
@@ -15,16 +17,13 @@ fn part1() -> Result<(), Box<dyn std::error::Error>> {
 
     let total: i32 = content.lines().map(|line| {
 
-        let mut is_inner = 0;
         let elfs_vec: Vec<&str> = line.split(",").collect();
 
         let elf1: Vec<i32> = elfs_vec[0].split("-").map(|x| x.parse::<i32>().unwrap()).collect();
         let elf2: Vec<i32> = elfs_vec[1].split("-").map(|x| x.parse::<i32>().unwrap()).collect();
 
-        if (elf1[0] >= elf2[0] && elf1[1] <= elf2[1]) || (elf2[0] >= elf1[0] && elf2[1] <= elf1[1]) {
-            is_inner = 1;
-        }
-    
+        let is_inner = range_is_inside(elf1, elf2).unwrap();
+
         is_inner
 
     }).sum();
@@ -39,22 +38,12 @@ fn part2() -> Result<(), Box<dyn std::error::Error>> {
 
     let total: i32 = content.lines().map(|line| {
 
-        let mut is_inner = 0;
         let elfs_vec: Vec<&str> = line.split(",").collect();
 
         let elf1: Vec<i32> = elfs_vec[0].split("-").map(|x| x.parse::<i32>().unwrap()).collect();
         let elf2: Vec<i32> = elfs_vec[1].split("-").map(|x| x.parse::<i32>().unwrap()).collect();
 
-
-        if (elf1[0] >= elf2[0] && elf1[0] <= elf2[1]) || 
-        (elf1[1] <= elf2[1] && elf1[1] >= elf2[0]) {
-            is_inner = 1
-        }
-
-        if (elf2[0] >= elf1[0] && elf2[0] <= elf1[1]) || 
-        (elf2[1] <= elf1[1] && elf2[1] >= elf1[0]) {
-            is_inner = 1
-        }
+        let is_inner = range_overlaps(elf1, elf2).unwrap();
 
         is_inner
 

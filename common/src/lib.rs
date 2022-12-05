@@ -59,41 +59,34 @@ pub fn alphabet_position(text: &str) -> Result<i32, Box<dyn std::error::Error>> 
     Ok(s.parse::<i32>().unwrap())
 }
 
-
-// pub fn alphabet_position_old(text: String) -> Result<u32, Box<dyn std::error::Error>> {
+pub fn range_overlaps(vec1: Vec<i32>, vec2: Vec<i32>) -> Result<i32, Box<dyn std::error::Error>> {
     
-//     let mut result = 0;;
-
-//     for ch in text.chars() {
-
-//       let code = ch.to_digit(10).expect("Error");
-
-//       if code > 64 && code < 91 {
-//         //result += (code - 64);
-//         result = code;
-//       }
-//     }
-
-//     Ok(result)
-
-//     //return result.slice(0, result.length - 1);
-//   }
-
-//   pub fn alphabet_position(text: char) -> Result<u32, Box<dyn std::error::Error>> {
-
-//     let mut result = 0;
-//     //let code = text.to_digit(10).expect("Error");
-
-//     let code = text.to_digit(10).unwrap_or(0);
-
-//     if code > 64 && code < 91 {
-//         //result += (code - 64);
-//         result = code;
-//     }
-
-//     // if result != 0 && upper {
-//     //     result += 26;
-//     // }
+    let mut is_inner = 0;
     
-//     Ok(result)
-//   }
+    if (vec1[0] >= vec2[0] && vec1[0] <= vec2[1]) || 
+        (vec1[1] <= vec2[1] && vec1[1] >= vec2[0]) {
+        is_inner = 1;
+    }
+
+    if (vec2[0] >= vec1[0] && vec2[0] <= vec1[1]) || 
+        (vec2[1] <= vec1[1] && vec2[1] >= vec1[0]) {
+        is_inner = 1;
+    }
+
+    Ok(is_inner)
+}
+
+
+pub fn range_is_inside(vec1: Vec<i32>, vec2: Vec<i32>) -> Result<i32, Box<dyn std::error::Error>> {
+    
+    let mut is_inner = 0;
+
+    if vec1.len() == 2 && vec2.len() == 2 {
+    
+        if (vec1[0] >= vec2[0] && vec1[1] <= vec2[1]) || (vec2[0] >= vec1[0] && vec2[1] <= vec1[1]) {
+            is_inner = 1;
+        }
+    }
+
+    Ok(is_inner)
+}
