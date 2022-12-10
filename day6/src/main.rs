@@ -15,14 +15,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 struct PacketManager {
     packets: String,
-    marker: Vec<String>
+    marker_check: Vec<char>
 }
 
 impl PacketManager {
     pub fn new() -> PacketManager {
         PacketManager {
             packets: String::new(),
-            marker: Vec::new(),
+            marker_check: Vec::new(),
         }
     }
 
@@ -34,5 +34,46 @@ impl PacketManager {
 
     pub fn process(&self) {
 
+    }
+
+    fn check_unique(&self) -> Result<bool, Box<dyn std::error::Error>> {
+
+        for m in &self.marker_check {
+            for n in &self.marker_check {
+
+                if n == m {
+                    return Ok(false)
+                }
+
+            }
+        }
+
+        Ok(true)
+    }
+
+// in C++
+// bool uniqueCharacters(string str)
+// {
+ 
+//     // If at any time we encounter 2
+//     // same characters, return false
+//     for (int i = 0; i < str.length() - 1; i++) {
+//         for (int j = i + 1; j < str.length(); j++) {
+//             if (str[i] == str[j]) {
+//                 return false;
+//             }
+//         }
+//     }
+ 
+    // If no duplicate characters encountered,
+    // return true
+//     return true;
+// }
+
+    pub fn add_marker(&mut self, marker_char: char) -> Result<(), Box<dyn std::error::Error>> {
+
+        self.marker_check.push(marker_char);
+
+        Ok(())
     }
 }
