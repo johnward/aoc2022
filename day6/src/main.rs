@@ -7,9 +7,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut manager = PacketManager::new();
     let _result = manager.read_input("input.txt".into());
 
-    let (found, index) = manager.process();
+    let (found, index) = manager.process(4);
 
     println!("Index found ({}): {}", found, index);
+
+    let (found2, index2) = manager.process(14);
+
+    println!("Index found ({}): {}", found2, index2);
 
     Ok(())
 }
@@ -31,15 +35,15 @@ impl PacketManager {
         Ok(())
     }
 
-    pub fn process(&self) -> (bool, usize) {
+    pub fn process(&self, message_length: usize) -> (bool, usize) {
 
-        if self.packets.len() >= 4 {
+        if self.packets.len() >= message_length {
             for (i, _c) in self.packets.chars().enumerate() {
-                if self.unique_chars(&self.packets[i..i+4]) {
-                    return (true, i + 4);
+                if self.unique_chars(&self.packets[i..i+message_length]) {
+                    return (true, i + message_length);
                 }
 
-                if i == self.packets.len() - 4 {
+                if i == self.packets.len() - message_length {
                     break;
                 }
             }
